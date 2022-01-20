@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.dream.model;
 
 public class Recruiter {
     private int id;
