@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Сервлет отдает файл, который лежит на сервере.
+ * Сервлет скачиваем файл, который лежит на сервере.
  */
 public class DownloadServlet extends HttpServlet {
     @Override
@@ -25,7 +25,7 @@ public class DownloadServlet extends HttpServlet {
                 break;
             }
         }
-        /* устанавливаем свойства что клиент будет не считывать, а скачивать файл */
+        /* устанавливаем свойства чтобы клиент скачал файл */
         resp.setContentType("application/octet-stream");
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + Objects.requireNonNull(downloadFile).getName() + "\"");
         try (FileInputStream stream = new FileInputStream(Objects.requireNonNull(downloadFile))) {

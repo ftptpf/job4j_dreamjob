@@ -24,7 +24,7 @@ import java.util.Objects;
 public class UploadServlet extends HttpServlet {
 
     /**
-     * Метод doGet отображает список доступных файлов в папке c:\images.
+     * Получаем список доступных файлов в папке c:\images.
      * @param req
      * @param resp
      * @throws ServletException
@@ -41,7 +41,7 @@ public class UploadServlet extends HttpServlet {
     }
 
     /**
-     * Метод doPost загружает выбранный файл на сервер в папку c:\images.
+     * Загружает выбранный файл на сервер в папку c:\images.
      * @param req
      * @param resp
      * @throws ServletException
@@ -57,9 +57,6 @@ public class UploadServlet extends HttpServlet {
         try {
             List<FileItem> items = upload.parseRequest(req);
             File folder = new File("c:\\images\\");
-/*            if (!folder.exists()) {
-                folder.mkdir();
-            }*/
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     File file = new File(folder + File.separator + item.getName());
