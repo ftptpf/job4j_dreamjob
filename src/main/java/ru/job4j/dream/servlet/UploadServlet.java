@@ -18,10 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Сервлет загружает фал на сервер.
+ */
 public class UploadServlet extends HttpServlet {
 
     /**
-     * Метод doGet отображает список доступных файлов.
+     * Метод doGet отображает список доступных файлов в папке c:\images.
      * @param req
      * @param resp
      * @throws ServletException
@@ -34,12 +37,11 @@ public class UploadServlet extends HttpServlet {
             images.add(name.getName());
         }
         req.setAttribute("images", images);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/upload.jsp");
-        dispatcher.forward(req, resp);
+        req.getRequestDispatcher("upload.jsp").forward(req, resp);
     }
 
     /**
-     * Метод doPost загружает выбранный файл на сервер в папку c:\\images\\.
+     * Метод doPost загружает выбранный файл на сервер в папку c:\images.
      * @param req
      * @param resp
      * @throws ServletException
