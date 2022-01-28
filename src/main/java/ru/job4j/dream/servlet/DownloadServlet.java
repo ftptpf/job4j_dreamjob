@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Сервлет скачиваем файл, который лежит на сервере.
+ * Сервлет скачивает файл, который лежит на сервере.
  */
 public class DownloadServlet extends HttpServlet {
     @Override

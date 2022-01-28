@@ -44,6 +44,9 @@
                 </a>
                 <c:out value="${can.name}"/>
               </td>
+              <td>
+                <c:out value="${}">
+              </td>
             </tr>
           </c:forEach>
           </tbody>

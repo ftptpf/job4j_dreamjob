@@ -19,16 +19,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Сервлет загружает фал на сервер.
+ * Сервлет загружает файл на сервер.
  */
 public class UploadServlet extends HttpServlet {
 
     /**
      * Получаем список доступных файлов в папке c:\images.
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,22 +37,24 @@ public class UploadServlet extends HttpServlet {
     }
 
     /**
-     * Загружает выбранный файл на сервер в папку c:\images.
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
+     * Загружаем выбранный файл на сервер в папку c:\images.
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        /* Создаем фабрику по которой можем понять, какие данные есть в запросе. Данные могу быть: поля или файлы. */
         DiskFileItemFactory factory = new DiskFileItemFactory();
+        /* Конфигурируем репозиторий для временного хранения файлов */
         ServletContext servletContext = this.getServletConfig().getServletContext();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
+        /* Создаем загрузчик файлов */
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
+            /* Парсим запрос */
             List<FileItem> items = upload.parseRequest(req);
             File folder = new File("c:\\images\\");
+            /*  Поверяем если элемент не поле,
+            то это файл и из него можно прочитать весь входной поток и записать его в файл */
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     File file = new File(folder + File.separator + item.getName());
