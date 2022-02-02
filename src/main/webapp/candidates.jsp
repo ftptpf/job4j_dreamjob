@@ -32,12 +32,18 @@
         <table class="table">
           <thead>
           <tr>
-            <th scope="col">Названия</th>
+            <th scope="col">Фото</th>
+            <th scope="col">Название</th>
+            <th scope="col">Добавление фото</th>
+            <th scope="col">Удаление кандидата</th>
           </tr>
           </thead>
           <tbody>
           <c:forEach items="${candidates}" var="can">
             <tr>
+              <td>
+                <img src="<c:url value='/download?name=${image}'/>" width="100px" height="100px">
+              </td>
               <td>
                 <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
                   <i class="fa fa-edit mr-3"></i>
@@ -45,7 +51,10 @@
                 <c:out value="${can.name}"/>
               </td>
               <td>
-                <c:out value="${}">
+                <input type="submit" name="Download" value="Загрузить">
+              </td>
+              <td>
+                <input type="submit" name="Delete" value="Удалить">
               </td>
             </tr>
           </c:forEach>
