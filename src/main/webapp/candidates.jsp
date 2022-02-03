@@ -51,9 +51,16 @@
                 <c:out value="${can.name}"/>
               </td>
               <td>
+                  <form action="<c:url value='/upload'/>" method="post" enctype="multipart/form-data">
+                      <div class="checkbox">
+                          <input type="file" name="file">
+                      </div>
+                      <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
                 <input type="submit" name="Download" value="Загрузить">
               </td>
               <td>
+                  <button type="submit" class="btn btn-default">Submit</button>
                 <input type="submit" name="Delete" value="Удалить">
               </td>
             </tr>
