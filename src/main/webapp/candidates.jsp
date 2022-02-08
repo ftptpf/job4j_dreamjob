@@ -60,8 +60,10 @@
                 <input type="submit" name="Download" value="Загрузить">
               </td>
               <td>
-                  <button type="submit" class="btn btn-default">Submit</button>
-                <input type="submit" name="Delete" value="Удалить">
+                  <form action="<c:url value='/delete.do?id=${can.id}'/>" method="post" enctype="multipart/form-data" >
+                      <button type="submit" name="Delete" class="btn btn-default">Submit</button>
+                      <!--<input type="submit" name="Delete" value="Удалить">-->
+                  </form>
               </td>
             </tr>
           </c:forEach>
