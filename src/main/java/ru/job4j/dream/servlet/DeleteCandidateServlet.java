@@ -19,7 +19,7 @@ public class DeleteCandidateServlet extends HttpServlet {
         Optional<String> id = Optional.ofNullable(req.getParameter("id"));
         if (id.isPresent()) {
             for (File file : Objects.requireNonNull(new File("c:\\images\\").listFiles())) {
-                Optional<String> fileName = Arrays.stream(file.getName().split(".")).findFirst();
+                Optional<String> fileName = Arrays.stream(file.getName().split("\\.", 2)).findFirst();
                 if (fileName.isPresent()) {
                     if (id.get().equals(fileName.get()) && !file.isDirectory()) {
                         Files.delete(file.toPath());
@@ -29,7 +29,6 @@ public class DeleteCandidateServlet extends HttpServlet {
             }
             Store.instOf().deleteCandidateById(Integer.parseInt(id.get()));
         }
-        req.getRequestDispatcher("candidates.jsp").include(req, resp);
-        resp.sendRedirect(req.getContextPath() + "/delete.do");
+        resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }

@@ -26,12 +26,4 @@ public class CandidateServlet extends HttpServlet {
                 ));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
-
-/*    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Store.instOf().deleteCandidateById(
-                Integer.parseInt(req.getParameter("id"))
-        );
-        resp.sendRedirect(req.getContextPath() + "/candidates.do");
-    }*/
 }

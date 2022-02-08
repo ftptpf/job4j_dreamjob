@@ -17,6 +17,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
           integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
   <title>Работа мечты</title>
 </head>
@@ -52,17 +53,12 @@
               </td>
               <td>
                   <form action="<c:url value='/upload'/>" method="post" enctype="multipart/form-data">
-                      <div class="checkbox">
-                          <input type="file" name="file">
-                      </div>
-                      <button type="submit" class="btn btn-default">Submit</button>
+                      <button type="submit" class="btn btn-default">Загрузить</button>
                   </form>
-                <input type="submit" name="Download" value="Загрузить">
               </td>
               <td>
                   <form action="<c:url value='/delete.do?id=${can.id}'/>" method="post" enctype="multipart/form-data" >
-                      <button type="submit" name="Delete" class="btn btn-default">Submit</button>
-                      <!--<input type="submit" name="Delete" value="Удалить">-->
+                      <button type="submit" name="Delete" class="btn btn-default">Удалить</button>
                   </form>
               </td>
             </tr>
