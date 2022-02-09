@@ -63,5 +63,14 @@
     <url-pattern>/delete.do</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>UploadCandidatePhotoServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.UploadCandidatePhotoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadCandidatePhotoServlet</servlet-name>
+    <url-pattern>/photoupload.do</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>
