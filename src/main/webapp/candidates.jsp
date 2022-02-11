@@ -52,7 +52,7 @@
                                 <c:out value="${can.name}"/>
                             </td>
                             <td>
-                                <form action="<c:url value='/photoupload.do'/>" method="post" enctype="multipart/form-data">
+                                <form action="<c:url value='/photoupload.do'/>" enctype="multipart/form-data">
                                     <button type="submit" class="btn btn-default">Загрузить</button>
                                 </form>
                             </td>
