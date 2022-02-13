@@ -4,6 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import ru.job4j.dream.utility.PropertyLoader;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -34,7 +35,7 @@ public class UploadCandidatePhotoServlet extends HttpServlet {
         try {
             /* Парсим запрос */
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File("c:\\images\\");
+            File folder = new File(PropertyLoader.get("store"));
             /*  Поверяем если элемент не поле,
             то это файл и из него можно прочитать весь входной поток и записать его в файл */
             for (FileItem item : items) {

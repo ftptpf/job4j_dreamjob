@@ -72,5 +72,4 @@
     <url-pattern>/photoupload.do</url-pattern>
   </servlet-mapping>
 
-
 </web-app>
