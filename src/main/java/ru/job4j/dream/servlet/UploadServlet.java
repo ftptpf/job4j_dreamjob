@@ -29,7 +29,7 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> images = new ArrayList<>();
-        for (File name : Objects.requireNonNull(new File(PropertyLoader.get("store")).listFiles())) {
+        for (File name : Objects.requireNonNull(new File(PropertyLoader.get("images.store")).listFiles())) {
             images.add(name.getName());
         }
         req.setAttribute("images", images);
@@ -52,7 +52,7 @@ public class UploadServlet extends HttpServlet {
         try {
             /* Парсим запрос */
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File(PropertyLoader.get("store)"));
+            File folder = new File(PropertyLoader.get("images.store)"));
             /*  Поверяем если элемент не поле,
             то это файл и из него можно прочитать весь входной поток и записать его в файл */
             for (FileItem item : items) {

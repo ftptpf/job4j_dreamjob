@@ -1,9 +1,9 @@
 package ru.job4j.dream.utility;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -11,18 +11,20 @@ import java.util.Properties;
  */
 public class PropertyLoader {
     private static Properties properties = new Properties();
-    private static Path path = Path.of("resources", "app.properties");
+    private static Path path = Paths.get("resources", "app.properties");
+    //private static Path path = Path.of("src/resources/app.properties");
 
     private PropertyLoader() {
     }
 
-/*    private static void init() {
-        try (BufferedInputStream bf = new BufferedInputStream(new FileInputStream(path.toFile()))) {
-            properties.load(bf);
+    private void init() {
+        try (InputStream inputStream = getClass().getResourceAsStream("/app.properties");
+             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)))) {
+            properties.load(reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
 
 /*    static {
@@ -34,11 +36,13 @@ public class PropertyLoader {
     }*/
 
     public static String get(String key) {
-        try (BufferedInputStream bf = new BufferedInputStream(new FileInputStream(path.toFile()))) {
+        init();
+
+/*        try (BufferedInputStream bf = new BufferedInputStream(new FileInputStream("resources//app.properties"))) {
             properties.load(bf);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return properties.getProperty(key);
     }
 

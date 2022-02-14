@@ -35,7 +35,7 @@ public class UploadCandidatePhotoServlet extends HttpServlet {
         try {
             /* Парсим запрос */
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File(PropertyLoader.get("store"));
+            File folder = new File(PropertyLoader.get("images.store"));
             /*  Поверяем если элемент не поле,
             то это файл и из него можно прочитать весь входной поток и записать его в файл */
             for (FileItem item : items) {

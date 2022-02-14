@@ -19,7 +19,7 @@ public class DeleteCandidateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Optional<String> id = Optional.ofNullable(req.getParameter("id"));
         if (id.isPresent()) {
-            for (File file : Objects.requireNonNull(new File(PropertyLoader.get("store")).listFiles())) {
+            for (File file : Objects.requireNonNull(new File(PropertyLoader.get("images.store")).listFiles())) {
                 Optional<String> fileName = Arrays.stream(file.getName().split("\\.", 2)).findFirst();
                 if (fileName.isPresent()) {
                     if (id.get().equals(fileName.get()) && !file.isDirectory()) {

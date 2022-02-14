@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -23,8 +21,10 @@ public class DownloadServlet extends HttpServlet {
         String name = req.getParameter("name");
         File downloadFile = null;
         /* проверяем есть ли нужный нам файл в папке c:\images */
-        for (File file : Files.getFileStore(Path.of(PropertyLoader.get("store"))).) {
-        //for (File file : Objects.requireNonNull(new File(PropertyLoader.get("store")).listFiles())) {
+        //for (File file : Files.getFileStore(Path.of(PropertyLoader.get("store")).) {
+
+        for (File file : Objects.requireNonNull(new File(PropertyLoader.get("images.store")).listFiles())) {
+            System.out.println(file);
         //for (File file : Objects.requireNonNull(new File("c:\\images\\").listFiles())) {
             if (name.equals(file.getName())) {
                 downloadFile = file;
