@@ -20,12 +20,8 @@ public class DownloadServlet extends HttpServlet {
         /* из параметров запроса извлекаем имя файла который хотим скачать */
         String name = req.getParameter("name");
         File downloadFile = null;
-        /* проверяем есть ли нужный нам файл в папке c:\images */
-        //for (File file : Files.getFileStore(Path.of(PropertyLoader.get("store")).) {
-
+        /* проверяем есть ли нужный нам файл в папке указанной в properties */
         for (File file : Objects.requireNonNull(new File(PropertyLoader.get("images.store")).listFiles())) {
-            System.out.println(file);
-        //for (File file : Objects.requireNonNull(new File("c:\\images\\").listFiles())) {
             if (name.equals(file.getName())) {
                 downloadFile = file;
                 break;

@@ -65,7 +65,7 @@
 
   <servlet>
     <servlet-name>UploadCandidatePhotoServlet</servlet-name>
-    <servlet-class>ru.job4j.dream.servlet.UploadCandidatePhotoServlet</servlet-class>
+    <servlet-class>ru.job4j.dream.servlet.sample.UploadCandidatePhotoServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UploadCandidatePhotoServlet</servlet-name>

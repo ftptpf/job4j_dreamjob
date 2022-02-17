@@ -1,4 +1,4 @@
-package ru.job4j.dream.servlet;
+package ru.job4j.dream.servlet.sample;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;

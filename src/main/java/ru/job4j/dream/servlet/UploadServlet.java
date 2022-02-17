@@ -24,7 +24,7 @@ import java.util.Objects;
 public class UploadServlet extends HttpServlet {
 
     /**
-     * Получаем список доступных файлов в папке c:\images.
+     * Получаем список доступных файлов в папке указанной в properties.
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class UploadServlet extends HttpServlet {
     }
 
     /**
-     * Загружаем выбранный файл на сервер в папку c:\images.
+     * Загружаем выбранный файл на сервер в папку указанную в properties.
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
