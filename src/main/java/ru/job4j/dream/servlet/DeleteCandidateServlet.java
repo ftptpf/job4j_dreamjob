@@ -1,6 +1,6 @@
 package ru.job4j.dream.servlet;
 
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 import ru.job4j.dream.utility.PropertyLoader;
 
 import javax.servlet.ServletException;
@@ -28,7 +28,7 @@ public class DeleteCandidateServlet extends HttpServlet {
                     }
                 }
             }
-            Store.instOf().deleteCandidateById(Integer.parseInt(id.get()));
+            MemStore.instOf().deleteCandidateById(Integer.parseInt(id.get()));
         }
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
