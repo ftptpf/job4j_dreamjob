@@ -53,6 +53,10 @@ public class DbStore implements Store {
         return Lazy.INST;
     }
 
+    /**
+     * Получаем информацию из базы обо всех постах.
+     * @return
+     */
     public List<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -68,6 +72,10 @@ public class DbStore implements Store {
         return posts;
     }
 
+    /**
+     * Получаем информацию из базы о всех кандидатах.
+     * @return
+     */
     public List<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -83,6 +91,11 @@ public class DbStore implements Store {
         return candidates;
     }
 
+    /**
+     * Сохраняем пост в базу.
+     * Если поста с таким id не существует - создаем его, если существует - обновляем его.
+     * @param post
+     */
     public void save(Post post) {
         if (post.getId() == 0) {
             create(post);
@@ -91,6 +104,11 @@ public class DbStore implements Store {
         }
     }
 
+    /**
+     * Создаем пост в базе.
+     * @param post
+     * @return
+     */
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
@@ -108,10 +126,29 @@ public class DbStore implements Store {
         return post;
     }
 
-    private void update(Post post) {
-
+    /**
+     * Обновляем пост в базе.
+     * @param post
+     * @return
+     */
+    private boolean update(Post post) {
+        boolean result = false;
+        try (Connection cn = pool.getConnection();
+        PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")) {
+            ps.setString(1, post.getName());
+            ps.setInt(2, post.getId());
+            result = ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
+    /**
+     * Ищем в базе сообщение по id.
+     * @param id
+     * @return
+     */
     public Post findById(int id) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE id = ?")) {
