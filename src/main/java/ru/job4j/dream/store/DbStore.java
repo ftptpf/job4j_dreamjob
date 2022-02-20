@@ -24,7 +24,8 @@ public class DbStore implements Store {
         Properties cfg = new Properties();
         try (BufferedReader io = new BufferedReader(
                 new InputStreamReader(
-                        Objects.requireNonNull(DbStore.class.getResourceAsStream("db.properties"))
+                        Objects.requireNonNull(DbStore.class.getClassLoader()
+                                .getResourceAsStream("db.properties"))
                 )
         )) {
             cfg.load(io);
@@ -93,23 +94,39 @@ public class DbStore implements Store {
 
     /**
      * Сохраняем пост в базу.
-     * Если поста с таким id не существует - создаем его, если существует - обновляем его.
+     * Если получаем пост с id = 0, это признак нового поста который должен будет записан в базу,
+     * в ином случае пост обновляется.
      * @param post
      */
     public void save(Post post) {
         if (post.getId() == 0) {
-            create(post);
+            createPost(post);
         } else {
             update(post);
         }
     }
 
     /**
+     * Сохраняем кандидата в базу.
+     * Если получаем кандидата с id = 0, это признак нового кандидата который должен будет записан в базу,
+     * в ином случае запись о кандидате обновляется в базе.
+     * @param candidate
+     */
+    public void save(Candidate candidate) {
+        if (candidate.getId() == 0) {
+            createCandidate(candidate);
+        } else {
+            update(candidate);
+        }
+    }
+
+
+    /**
      * Создаем пост в базе.
      * @param post
-     * @return
+     * @return созданный пост
      */
-    private Post create(Post post) {
+    private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -127,29 +144,63 @@ public class DbStore implements Store {
     }
 
     /**
+     * Создаем запись о кандидате в базе.
+     * @param candidate
+     * @return созданный кандидат
+     */
+    private Candidate createCandidate(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, candidate.getName());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    candidate.setId(id.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return candidate;
+    }
+
+    /**
      * Обновляем пост в базе.
      * @param post
-     * @return
      */
-    private boolean update(Post post) {
-        boolean result = false;
+    private void update(Post post) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
-            result = ps.executeUpdate() > 0;
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
     /**
-     * Ищем в базе сообщение по id.
+     * Обновляем запись о кандидате в базе.
+     * @param candidate
+     */
+    private void update(Candidate candidate) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("UPDATE candidate SET name = ? WHERE id = ?")) {
+            ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Ищем в базе пост по id.
      * @param id
      * @return
      */
-    public Post findById(int id) {
+    public Post findByIdPost(int id) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE id = ?")) {
             ps.setInt(1, id);
@@ -162,5 +213,39 @@ public class DbStore implements Store {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Ищем в базе кандидата по id.
+     * @param id
+     * @return
+     */
+    public Candidate findByIdCandidate(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate WHERE id = ?")) {
+            ps.setInt(1, id);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new Candidate(it.getInt("id"), it.getString("name"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Удаляем запись о кандидате из базы данных по-заданному id.
+     * @param id
+     */
+    public void deleteCandidateById(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM candidate WHERE id = ?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
