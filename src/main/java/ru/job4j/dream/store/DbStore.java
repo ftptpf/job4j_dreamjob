@@ -24,7 +24,8 @@ public class DbStore implements Store {
         Properties cfg = new Properties();
         try (BufferedReader io = new BufferedReader(
                 new InputStreamReader(
-                        Objects.requireNonNull(DbStore.class.getResourceAsStream("db.properties"))
+                        Objects.requireNonNull(DbStore.class.getClassLoader()
+                                .getResourceAsStream("db.properties"))
                 )
         )) {
             cfg.load(io);
@@ -93,7 +94,8 @@ public class DbStore implements Store {
 
     /**
      * Сохраняем пост в базу.
-     * Если поста с таким id не существует - создаем его, если существует - обновляем его.
+     * Если получаем пост с id = 0, это признак нового поста который должен будет записан в базу,
+     * в ином случае пост обновляется.
      * @param post
      */
     public void save(Post post) {
@@ -107,7 +109,7 @@ public class DbStore implements Store {
     /**
      * Создаем пост в базе.
      * @param post
-     * @return
+     * @return созданный пост
      */
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
@@ -129,23 +131,20 @@ public class DbStore implements Store {
     /**
      * Обновляем пост в базе.
      * @param post
-     * @return
      */
-    private boolean update(Post post) {
-        boolean result = false;
+    private void update(Post post) {
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
-            result = ps.executeUpdate() > 0;
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
     /**
-     * Ищем в базе сообщение по id.
+     * Ищем в базе пост по id.
      * @param id
      * @return
      */
