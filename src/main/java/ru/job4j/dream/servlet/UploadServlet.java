@@ -4,6 +4,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.job4j.dream.store.DbStore;
 import ru.job4j.dream.utility.PropertyLoader;
 
 import javax.servlet.ServletContext;
@@ -22,6 +25,7 @@ import java.util.Objects;
  * Сервлет загружает файл на сервер.
  */
 public class UploadServlet extends HttpServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
 
     /**
      * Получаем список доступных файлов в папке указанной в properties.
@@ -64,7 +68,7 @@ public class UploadServlet extends HttpServlet {
                 }
             }
         } catch (FileUploadException e) {
-            e.printStackTrace();
+            LOG.error("File Upload Exception information:", e);
         }
         doGet(req, resp);
     }

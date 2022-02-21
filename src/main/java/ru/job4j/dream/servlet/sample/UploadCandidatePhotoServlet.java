@@ -4,6 +4,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.job4j.dream.store.DbStore;
 import ru.job4j.dream.utility.PropertyLoader;
 
 import javax.servlet.ServletContext;
@@ -17,6 +20,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class UploadCandidatePhotoServlet extends HttpServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("photoUpload.jsp").forward(req, resp);
@@ -47,7 +52,7 @@ public class UploadCandidatePhotoServlet extends HttpServlet {
                 }
             }
         } catch (FileUploadException e) {
-            e.printStackTrace();
+            LOG.error("File Upload Exception information:", e);
         }
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }

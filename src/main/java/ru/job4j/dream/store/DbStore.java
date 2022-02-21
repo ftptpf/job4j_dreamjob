@@ -1,6 +1,8 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 
@@ -17,8 +19,8 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class DbStore implements Store {
-    private static final DbStore INSTANCE = new DbStore();
     private final BasicDataSource pool = new BasicDataSource();
+    private static final Logger LOG = LoggerFactory.getLogger(DbStore.class.getName());
 
     private DbStore() {
         Properties cfg = new Properties();
@@ -68,7 +70,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
         return posts;
     }
@@ -87,7 +89,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
         return candidates;
     }
@@ -138,7 +140,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
         return post;
     }
@@ -160,7 +162,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
         return candidate;
     }
@@ -176,7 +178,7 @@ public class DbStore implements Store {
             ps.setInt(2, post.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
     }
 
@@ -191,7 +193,7 @@ public class DbStore implements Store {
             ps.setInt(2, candidate.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
     }
 
@@ -210,7 +212,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
         return null;
     }
@@ -230,7 +232,7 @@ public class DbStore implements Store {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
         return null;
     }
@@ -245,7 +247,7 @@ public class DbStore implements Store {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("SQL Exception information:", e);
         }
     }
 }
