@@ -27,7 +27,7 @@ public class MainStore {
 
         /* выводим информацию о всех кандидатах */
         store.findAllCandidates().forEach(System.out::println);
-        /* ищем кандидата по id = 1 и выводим не печать */
+        /* ищем кандидата по id = 1 и выводим на печать */
         System.out.println(store.findByIdCandidate(1));
         /* обновляем кандидата с id = 1 и выводим на печать */
         store.save(new Candidate(1, "Middle Java"));

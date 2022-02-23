@@ -250,4 +250,18 @@ public class DbStore implements Store {
             LOG.error("SQL Exception information:", e);
         }
     }
+
+    /**
+     * Очищаем таблицу от данных. Новые данные будут заводиться начиная с id =1.
+     * @param table имя таблицы
+     */
+    public void clear(String table) {
+        try (Connection cn = pool.getConnection();
+        PreparedStatement ps = cn.prepareStatement("TRUNCATE TABLE ? RESTART IDENTITY")) {
+            ps.setString(1, table);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+    }
 }
