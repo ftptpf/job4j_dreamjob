@@ -257,8 +257,8 @@ public class DbStore implements Store {
      */
     public void clear(String table) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("TRUNCATE TABLE ? RESTART IDENTITY")) {
-            ps.setString(1, table);
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM " + table + "; ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1")) {
+            //ps.setString(1, table);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOG.error("SQL Exception information:", e);

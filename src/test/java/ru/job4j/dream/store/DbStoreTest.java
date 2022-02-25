@@ -13,9 +13,11 @@ public class DbStoreTest {
         Store store = DbStore.instOf();
         Post post = new Post(0, "Java Job");
         store.save(post);
+        System.out.println(store.findAllPosts());
         Post postInDb = store.findByIdPost(post.getId());
         assertThat(postInDb.getName(), is(post.getName()));
         store.clear("post");
+        System.out.println(store.findAllPosts());
     }
 
     @Test
@@ -23,11 +25,24 @@ public class DbStoreTest {
         Store store = DbStore.instOf();
         Post post = new Post(0, "Java Job");
         store.save(post);
+        System.out.println(store.findAllPosts());
         Post postInDb = store.findByIdPost(post.getId());
         assertThat(postInDb.getName(), is(post.getName()));
         Post post2 = new Post(postInDb.getId(), "New Java Job");
         store.save(post2);
+        System.out.println(store.findAllPosts());
         Post postInDb2 = store.findByIdPost(post2.getId());
         assertThat(postInDb2.getName(), is(post2.getName()));
+        store.clear("post");
+        System.out.println(store.findAllPosts());
     }
+
+/*    @Test
+    public void whenClearPost() {
+        Store store = DbStore.instOf();
+        System.out.println(store.findAllPosts());
+        store.clear("post");
+        System.out.println(store.findAllPosts());
+    }*/
+
 }
