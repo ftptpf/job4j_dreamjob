@@ -252,13 +252,13 @@ public class DbStore implements Store {
     }
 
     /**
-     * Очищаем таблицу от данных. Новые данные будут заводиться начиная с id =1.
+     * Очищаем таблицу от данных, и обнуляем счетчик чтобы он начинался с id = 1.
      * @param table имя таблицы
      */
     public void clear(String table) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("DELETE FROM " + table + "; ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1")) {
-            //ps.setString(1, table);
+             PreparedStatement ps = cn.prepareStatement(
+                     "DELETE FROM " + table + "; ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1;")) {
             ps.executeUpdate();
         } catch (SQLException e) {
             LOG.error("SQL Exception information:", e);
