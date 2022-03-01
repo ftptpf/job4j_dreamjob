@@ -10,8 +10,7 @@
   <packaging>war</packaging>
 
   <name>job4j_dreamjob</name>
-  <description>A simple job4j_dreamjob.</description>
-  <url>http://www.example.com</url>
+  <description>Project job4j_dreamjob.</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
