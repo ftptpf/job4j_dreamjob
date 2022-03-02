@@ -22,6 +22,7 @@
 </head>
 <body>
 <div class="container">
+    <jsp:include page="header.jsp">
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
