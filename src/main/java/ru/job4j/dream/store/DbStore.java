@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -263,5 +264,27 @@ public class DbStore implements Store {
         } catch (SQLException e) {
             LOG.error("SQL Exception information:", e);
         }
+    }
+
+    /**
+     * Ищем пользователя в базе по email.
+     * @param email
+     * @return
+     */
+    public User findByEmail(String email) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE email = ?")) {
+            ps.setString(1, email);
+            ps.executeUpdate();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new User(rs.getInt("id"), rs.getString("name"),
+                            rs.getString("email"));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return null;
     }
 }
