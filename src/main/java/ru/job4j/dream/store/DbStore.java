@@ -64,7 +64,7 @@ public class DbStore implements Store {
     public List<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("SELECT * FROM post")) {
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     posts.add(new Post(it.getInt("id"), it.getString("name")));
@@ -83,7 +83,7 @@ public class DbStore implements Store {
     public List<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate")) {
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
@@ -174,7 +174,7 @@ public class DbStore implements Store {
      */
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")) {
+             PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
             ps.executeUpdate();
@@ -205,7 +205,7 @@ public class DbStore implements Store {
      */
     public Post findByIdPost(int id) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE id = ?")) {
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE id = ?")) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
@@ -275,7 +275,6 @@ public class DbStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE email = ?")) {
             ps.setString(1, email);
-            ps.executeUpdate();
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return new User(rs.getInt("id"), rs.getString("name"),
@@ -287,4 +286,97 @@ public class DbStore implements Store {
         }
         return null;
     }
+
+    /**
+     * Создаем запись пользователя в базе.
+     * @param user
+     * @return созданный пользователь
+     */
+    private User createUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return user;
+    }
+
+    /**
+     * Проверка есть ли уже пользователь в базе.
+     * Проверку делаем по email.
+     * @param user
+     * @return
+     */
+    public boolean existUser(User user) {
+        return findByEmail(user.getEmail()) != null;
+    }
+
+    /**
+     * Регистрация пользователя в базе.
+     * @param user
+     * @return
+     */
+    public boolean registrationUser(User user) {
+        if (!existUser(user)) {
+            createUser(user);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Аутентификация пользователя.
+     * Проверяем email и пароль.
+     * @param user
+     * @return
+     */
+    public boolean authenticationUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?")) {
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPassword());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return false;
+    }
 }
+
+
+/*    *//**
+     * Проверка есть ли уже пользователь в базе.
+     * Проверку делаем по имени ИЛИ email.
+     * @param user
+     * @return
+     *//*
+    private boolean existUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE name = ? OR email = ?")) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return false;
+    }
+}*/
