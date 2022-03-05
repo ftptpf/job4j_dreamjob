@@ -267,6 +267,16 @@ public class DbStore implements Store {
     }
 
     /**
+     * Проверка есть ли пользователь в базе.
+     * Проверку делаем по email.
+     * @param user
+     * @return
+     */
+    public boolean existUser(User user) {
+        return findByEmail(user.getEmail()) != null;
+    }
+
+    /**
      * Ищем пользователя в базе по email.
      * @param email
      * @return
@@ -285,6 +295,20 @@ public class DbStore implements Store {
             LOG.error("SQL Exception information:", e);
         }
         return null;
+    }
+
+    /**
+     * Регистрация пользователя в базе.
+     * Проверяем есть ли пользователь в базе, если нет - создаем.
+     * @param user
+     * @return
+     */
+    public boolean registrationUser(User user) {
+        if (!existUser(user)) {
+            createUser(user);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -312,29 +336,6 @@ public class DbStore implements Store {
     }
 
     /**
-     * Проверка есть ли уже пользователь в базе.
-     * Проверку делаем по email.
-     * @param user
-     * @return
-     */
-    public boolean existUser(User user) {
-        return findByEmail(user.getEmail()) != null;
-    }
-
-    /**
-     * Регистрация пользователя в базе.
-     * @param user
-     * @return
-     */
-    public boolean registrationUser(User user) {
-        if (!existUser(user)) {
-            createUser(user);
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Аутентификация пользователя.
      * Проверяем email и пароль.
      * @param user
@@ -356,27 +357,3 @@ public class DbStore implements Store {
         return false;
     }
 }
-
-
-/*    *//**
-     * Проверка есть ли уже пользователь в базе.
-     * Проверку делаем по имени ИЛИ email.
-     * @param user
-     * @return
-     *//*
-    private boolean existUser(User user) {
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE name = ? OR email = ?")) {
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getEmail());
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            LOG.error("SQL Exception information:", e);
-        }
-        return false;
-    }
-}*/
