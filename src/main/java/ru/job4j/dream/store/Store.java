@@ -16,4 +16,5 @@ public interface Store {
     void deleteCandidateById(int id);
     void clear(String table);
     User findByEmail(String email);
+    boolean registrationUser(User user);
 }
