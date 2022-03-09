@@ -25,7 +25,7 @@
 <body>
 <%
     String email = request.getParameter("email");
-    User user = new User();
+    User user = new User("", "", "");
     if (email != null) {
         user = DbStore.instOf().findByEmail(email);
     }
@@ -38,7 +38,7 @@
                 Регистрация нового пользователя
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/reg.do?id=<%=user.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do?email=<%=user.getEmail()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=user.getName()%>">
@@ -51,7 +51,14 @@
                         <label>Пароль</label>
                         <input type="text" class="form-control" name="password" value="<%=user.getPassword()%>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                    <c:if test="${not empty notAdded}">
+                        <div style="color:red; font-weight: bold; margin: 30px 0;">
+                                ${notAdded}
+                        </div>
+                    </c:if>
                 </form>
             </div>
         </div>

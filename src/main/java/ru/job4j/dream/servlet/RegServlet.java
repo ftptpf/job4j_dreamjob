@@ -18,11 +18,20 @@ public class RegServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        DbStore.instOf().registrationUser(
-                new User(req.getParameter("name"),
-                        req.getParameter("email"),
-                        req.getParameter("password"))
-                );
-        resp.sendRedirect(req.getContextPath() + "/login.jsp");
+        User user = new User(
+                req.getParameter("name"),
+                req.getParameter("email"),
+                req.getParameter("password"));
+        boolean userAddedToDatabase = DbStore.instOf().registrationUser(user);
+        if (userAddedToDatabase) {
+            req.setAttribute("addedUser", user);
+            resp.sendRedirect(req.getContextPath() + "/auth.do");
+        } else {
+            req.setAttribute("notAdded", "Пользователь с таким email уже зарегистрирован в базе.");
+            req.getRequestDispatcher("reg.jsp").forward(req, resp);
+
+
+        }
+
     }
 }
