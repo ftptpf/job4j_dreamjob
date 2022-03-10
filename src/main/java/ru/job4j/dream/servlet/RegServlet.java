@@ -24,14 +24,11 @@ public class RegServlet extends HttpServlet {
                 req.getParameter("password"));
         boolean userAddedToDatabase = DbStore.instOf().registrationUser(user);
         if (userAddedToDatabase) {
-            req.setAttribute("addedUser", user);
-            resp.sendRedirect(req.getContextPath() + "/auth.do");
+            req.setAttribute("addedUser", "Пользователь успешно зарегистрирован. Вы можете войти под его учетными данными.");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else {
             req.setAttribute("notAdded", "Пользователь с таким email уже зарегистрирован в базе.");
             req.getRequestDispatcher("reg.jsp").forward(req, resp);
-
-
         }
-
     }
 }

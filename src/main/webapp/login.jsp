@@ -49,10 +49,12 @@
                                 ${error}
                         </div>
                     </c:if>
+                    <c:if test="${not empty addedUser}">
+                        <div style="color:green; font-weight: bold; margin: 30px 0;">
+                                ${addedUser}
+                        </div>
+                    </c:if>
                 </form>
-            </div>
-            <div>
-
             </div>
         </div>
     </div>

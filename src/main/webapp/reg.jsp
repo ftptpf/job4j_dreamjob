@@ -1,7 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ru.job4j.dream.store.DbStore" %>
-<%@ page import="ru.job4j.dream.model.User" %>
 
 <!doctype html>
 <html lang="en">
@@ -23,13 +21,6 @@
     <title>Регистрация</title>
 </head>
 <body>
-<%
-    String email = request.getParameter("email");
-    User user = new User("", "", "");
-    if (email != null) {
-        user = DbStore.instOf().findByEmail(email);
-    }
-%>
 <div class="container">
     <jsp:include page="header.jsp"/>
     <div class="row">
@@ -38,18 +29,18 @@
                 Регистрация нового пользователя
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/reg.do?email=<%=user.getEmail()%>" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=user.getName()%>">
+                        <input type="text" class="form-control" name="name">
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="text" class="form-control" name="email" value="<%=user.getEmail()%>">
+                        <input type="text" class="form-control" name="email">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
-                        <input type="text" class="form-control" name="password" value="<%=user.getPassword()%>">
+                        <input type="text" class="form-control" name="password">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Сохранить</button>

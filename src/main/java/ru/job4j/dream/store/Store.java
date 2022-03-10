@@ -17,4 +17,5 @@ public interface Store {
     void clear(String table);
     User findByEmail(String email);
     boolean registrationUser(User user);
+    boolean authenticationUser(User user);
 }
