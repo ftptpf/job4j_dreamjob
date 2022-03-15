@@ -239,6 +239,46 @@ public class DbStore implements Store {
     }
 
     /**
+     * Ищем в базе пост по наименованию.
+     * @param name
+     * @return
+     */
+    public Post findByNamePost(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM post WHERE name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet post = ps.executeQuery()) {
+                if (post.next()) {
+                    return new Post(post.getInt("id"), post.getString("name"));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return null;
+    }
+
+    /**
+     * Ищем в базе кандидата по имени.
+     * @param name
+     * @return
+     */
+    public Candidate findByNameCandidate(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate WHERE name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet candidate = ps.executeQuery()) {
+                if (candidate.next()) {
+                    return new Candidate(candidate.getInt("id"), candidate.getString("name"));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return null;
+    }
+
+    /**
      * Удаляем запись о кандидате из базы данных по-заданному id.
      * @param id
      */

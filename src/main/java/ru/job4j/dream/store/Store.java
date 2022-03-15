@@ -13,6 +13,8 @@ public interface Store {
     void save(Candidate candidate);
     Post findByIdPost(int id);
     Candidate findByIdCandidate(int id);
+    Post findByNamePost(String name);
+    Candidate findByNameCandidate(String name);
     void deleteCandidateById(int id);
     void clear(String table);
     User findByEmail(String email);
