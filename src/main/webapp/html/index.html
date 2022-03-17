@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        let title = "Необходимо заполнить форму";
+        function validate() {
+            if ($(`#inputName`).val()) {
+                alert("Пропущено " + $(`#inputName`).attr(title));
+            } else if ($(`#inputSurname`).val()) {
+                alert("Пропущено " + $(`#inputSurname`).attr(title));
+            } else if ($(`#inputSurname`).val()) {
+                alert("Пропущено " + $(`#inputDescription`).attr(title));
+            }
+            return false;
+        }
+    </script>
 </head>
 <body>
 
@@ -34,7 +47,7 @@
         <label for="inputDescription">Описание</label>
         <textarea class="form-control" id="inputDescription" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
+    <button type="submit" class="btn btn-primary" onclick="return validate();">Отправить</button>
 </form>
 <div class="container" style="margin-top:30px">
     <table class="table">
