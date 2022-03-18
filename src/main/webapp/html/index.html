@@ -5,19 +5,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-        let title = "Необходимо заполнить форму";
         function validate() {
-            if ($(`#inputName`).val()) {
-                alert("Пропущено " + $(`#inputName`).attr(title));
-            } else if ($(`#inputSurname`).val()) {
-                alert("Пропущено " + $(`#inputSurname`).attr(title));
-            } else if ($(`#inputSurname`).val()) {
-                alert("Пропущено " + $(`#inputDescription`).attr(title));
+            if ($(`#inputName`).val() === "") {
+                alert("Необходимо заполнить поле Имя");
+                return false;
+            } else if ($(`#inputSurname`).val() === "") {
+                alert("Необходимо заполнить поле Фамилия");
+                return false;
+            } else if ($(`#inputDescription`).val() === "") {
+                alert("Необходимо заполнить поле Описание");
+                return false;
             }
-            return false;
+            return true;
         }
     </script>
 </head>
