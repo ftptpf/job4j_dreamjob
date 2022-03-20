@@ -28,9 +28,10 @@
             const surname = $(`#inputSurname`).val();
             const gender = $(`#selectGender`).val();
             const description = $(`#inputDescription`).val();
-            const lastNumber = ($(`#table `).val());
+            const lastNumber = $(`#table th:last`).html();
+            let currentNumber = Number(lastNumber) + 1;
             $(`#table tr:last`).after(`<tr><th scope="row">`
-                                        + (lastNumber + 1) + `</th><td>`
+                                        + currentNumber + `</th><td>`
                                         + name + `</td> <td>`
                                         + surname + `</td><td>`
                                         + gender + `</td><td>`
@@ -64,8 +65,7 @@
         <label for="inputDescription">Описание</label>
         <textarea class="form-control" id="inputDescription" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary" onclick="return validate();">Отправить</button>
-    <button type="button" class="btn btn-primary" onclick="AddRow()">Добавить строку в таблицу</button>
+    <button type="button" class="btn btn-primary" onclick="AddRow()">Добавить данные в таблицу</button>
 </form>
 <div class="container" style="margin-top:30px">
     <table class="table" id="table">
