@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>AJAX</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function sendGreeting() {
         $.ajax({
@@ -27,7 +27,7 @@
             data: 'name=' + $('#email').val(),
             dataType: 'text'
         }).done(function(data) {
-            alert(data);
+            $(`#emailText`).before(data);
         }).fail(function(err){
             alert(err);
         });
@@ -38,7 +38,7 @@
 <div class="container">
     <form>
         <div class="form-group">
-            <label for="email" style="font-weight: bold">Email address</label>
+            <label for="email" style="font-weight: bold" id="emailText">Email address</label>
             <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
         </div>
         <button type="button" class="btn btn-primary" onclick="sendGreeting()">Submit</button>
