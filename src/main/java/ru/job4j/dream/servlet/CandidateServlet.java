@@ -22,7 +22,9 @@ public class CandidateServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         DbStore.instOf().save(
                 new Candidate(
-                        Integer.parseInt(req.getParameter("id")), req.getParameter("name")
+                        Integer.parseInt(req.getParameter("id")),
+                        req.getParameter("name"),
+                        Integer.parseInt(req.getParameter("citiesId"))
                 ));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }

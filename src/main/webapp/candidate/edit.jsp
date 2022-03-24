@@ -56,6 +56,13 @@
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=can.getName()%>" id="infoCandidate">
                     </div>
+                    <div class="form-group">
+                        <label for="selectCities">Город</label>
+                        <select class="form-control" name="citiesId" id="selectCities">
+                            <option>Москва</option>
+                            <option>Киев</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
                 </form>
             </div>
