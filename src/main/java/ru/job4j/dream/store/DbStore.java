@@ -100,7 +100,7 @@ public class DbStore implements Store {
      * Получаем информацию из базы о городах.
      * @return
      */
-    public List<City> findAllCity() {
+    public List<City> findAllCities() {
         List<City> cities = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM city")) {

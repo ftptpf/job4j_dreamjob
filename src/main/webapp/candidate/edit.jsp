@@ -19,6 +19,7 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function validate() {
             if ($(`#infoCandidate`).val() === "") {
@@ -27,6 +28,19 @@
             }
             return true;
         }
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/dreamjob/candidate/edit.jsp',
+                dataType: 'json'
+            }).done(function(data) {
+                for (let city of data) {
+                    $('#selectCities').append(`<option id=`${city.id}`>`${city.name}`</option>`)
+                }
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
     </script>
 
     <title>Работа мечты</title>
@@ -59,8 +73,8 @@
                     <div class="form-group">
                         <label for="selectCities">Город</label>
                         <select class="form-control" name="citiesId" id="selectCities">
-                            <option>Москва</option>
-                            <option>Киев</option>
+<%--                            <option>Москва</option>
+                            <option>Киев</option>--%>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>

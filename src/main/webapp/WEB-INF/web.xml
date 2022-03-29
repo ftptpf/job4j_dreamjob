@@ -103,10 +103,18 @@
     <servlet-name>GreetingServlet</servlet-name>
     <servlet-class>ru.job4j.dream.servlet.GreetingServlet</servlet-class>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>GreetingServlet</servlet-name>
     <url-pattern>/greet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CandidateEditServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.CandidateEditServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CandidateEditServlet</servlet-name>
+    <url-pattern>/candidate/edit.jsp</url-pattern>
   </servlet-mapping>
 
   <filter>
