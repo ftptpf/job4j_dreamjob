@@ -114,7 +114,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CandidateEditServlet</servlet-name>
-    <url-pattern>/candidate/edit.jsp</url-pattern>
+    <url-pattern>/candidate/edit.do</url-pattern>
   </servlet-mapping>
 
   <filter>

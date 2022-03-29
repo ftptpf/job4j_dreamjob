@@ -31,7 +31,7 @@
         $(document).ready(function() {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/dreamjob/candidate/edit.jsp',
+                url: 'http://localhost:8080/dreamjob/candidate/edit.do',
                 dataType: 'json'
             }).done(function(data) {
                 for (let city of data) {

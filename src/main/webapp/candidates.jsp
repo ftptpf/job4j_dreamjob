@@ -46,7 +46,7 @@
                                 <img src="<c:url value='/download?name=${can.id}.JPG'/>" width="100px" height="100px">
                             </td>
                             <td>
-                                <a href='<c:url value="/candidate/edit.jsp?id=${can.id}"/>'>
+                                <a href='<c:url value="/candidate/edit.do?id=${can.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${can.name}"/>
