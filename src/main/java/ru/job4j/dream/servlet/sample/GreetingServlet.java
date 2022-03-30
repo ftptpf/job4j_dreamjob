@@ -1,4 +1,4 @@
-package ru.job4j.dream.servlet;
+package ru.job4j.dream.servlet.sample;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

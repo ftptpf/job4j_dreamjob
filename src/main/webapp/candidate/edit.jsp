@@ -35,7 +35,7 @@
                 dataType: 'json'
             }).done(function(data) {
                 for (let city of data) {
-                    $('#selectCities').append(`<option id=`${city.id}`>`${city.name}`</option>`)
+                    $('#selectCities option:last').append(`<option id=`${city.id}`>`${city.name}`</option>`)
                 }
             }).fail(function (err) {
                 console.log(err);
@@ -73,8 +73,7 @@
                     <div class="form-group">
                         <label for="selectCities">Город</label>
                         <select class="form-control" name="citiesId" id="selectCities">
-<%--                            <option>Москва</option>
-                            <option>Киев</option>--%>
+                            <option></option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>

@@ -38,7 +38,7 @@
 
   <servlet>
     <servlet-name>DownloadServlet</servlet-name>
-    <servlet-class>ru.job4j.dream.servlet.DownloadServlet</servlet-class>
+    <servlet-class>ru.job4j.dream.servlet.sample.DownloadServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
@@ -101,7 +101,7 @@
 
   <servlet>
     <servlet-name>GreetingServlet</servlet-name>
-    <servlet-class>ru.job4j.dream.servlet.GreetingServlet</servlet-class>
+    <servlet-class>ru.job4j.dream.servlet.sample.GreetingServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GreetingServlet</servlet-name>

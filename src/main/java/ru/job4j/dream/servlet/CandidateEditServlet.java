@@ -21,8 +21,16 @@ public class CandidateEditServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("cities", DbStore.instOf().findAllCities());
-        req.getRequestDispatcher("/candidate/edit.jsp").forward(req, resp);
+        cities.addAll(DbStore.instOf().findAllCities());
+        resp.setContentType("application/json; charset=utf-8");
+        OutputStream output = resp.getOutputStream();
+        String json = GSON.toJson(cities);
+        output.write(json.getBytes(StandardCharsets.UTF_8));
+        cities.clear();
+        output.flush();
+        output.close();
+/*        req.setAttribute("cities", DbStore.instOf().findAllCities());
+        req.getRequestDispatcher("/candidate/edit.jsp").forward(req, resp);*/
 
 
 
