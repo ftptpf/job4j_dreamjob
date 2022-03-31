@@ -34,8 +34,10 @@
                 url: 'http://localhost:8080/dreamjob/candidate/edit.do',
                 dataType: 'json'
             }).done(function(data) {
-                for (let city of data) {
-                    $('#selectCities option:last').append(`<option id=`${city.id}`>`${city.name}`</option>`)
+                for (let city in data) {
+                    let id = data[city]['id']
+                    let cityName = data[city]['name']
+                    $('#selectCities option:last').append("<option>" + cityName + "</option>");
                 }
             }).fail(function (err) {
                 console.log(err);
