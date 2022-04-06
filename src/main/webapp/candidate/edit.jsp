@@ -35,7 +35,8 @@
                 dataType: 'json'
             }).done(function(data) {
                 for (let city of data) {
-                    $(`#selectCities`).append(`<option value="${city.id}">${city.name}</option>`)
+                    $(`#selectCities`).append("<option value=\"" + city.id + "\">" + city.name + "</option>")
+                    /*//$('#selectCities').append(`<option value="${city.id}">${city.name}</option>`)*/
                 }
             }).fail(function (err) {
                 console.log(err);
@@ -73,7 +74,6 @@
                     <div class="form-group">
                         <label for="selectCities">Город</label>
                         <select class="form-control" name="citiesId" id="selectCities">
-                            <%--<option></option>--%>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="return validate();">Сохранить</button>
