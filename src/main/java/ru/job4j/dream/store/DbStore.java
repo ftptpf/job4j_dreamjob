@@ -12,13 +12,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 
 public class DbStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
@@ -68,7 +66,9 @@ public class DbStore implements Store {
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM post")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                    posts.add(new Post(
+                            it.getInt("id"),
+                            it.getString("name")));
                 }
             }
         } catch (SQLException e) {
@@ -87,7 +87,9 @@ public class DbStore implements Store {
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM candidate")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(new Candidate(
+                            it.getInt("id"),
+                            it.getString("name")));
                 }
             }
         } catch (SQLException e) {
@@ -106,7 +108,9 @@ public class DbStore implements Store {
              PreparedStatement ps = cn.prepareStatement("SELECT * FROM city")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    cities.add(new City(it.getInt("id"), it.getString("name")));
+                    cities.add(new City(
+                            it.getInt("id"),
+                            it.getString("name")));
                 }
             }
         } catch (SQLException e) {
@@ -151,9 +155,12 @@ public class DbStore implements Store {
      */
     private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO post(name, create_date) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, post.getName());
+            Date currentDate = new Date(System.currentTimeMillis());
+            ps.setDate(2, currentDate);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -173,9 +180,13 @@ public class DbStore implements Store {
      */
     private Candidate createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO candidate(name, city_id, create_date) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getCityId());
+            Date currentDate = new Date(System.currentTimeMillis());
+            ps.setDate(3, currentDate);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -194,7 +205,8 @@ public class DbStore implements Store {
      */
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE post SET name = ? WHERE id = ?")) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE post SET name = ? WHERE id = ?")) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
             ps.executeUpdate();
@@ -209,9 +221,11 @@ public class DbStore implements Store {
      */
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE candidate SET name = ? WHERE id = ?")) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE candidate SET name = ?, city_id = ? WHERE id = ?")) {
             ps.setString(1, candidate.getName());
-            ps.setInt(2, candidate.getId());
+            ps.setInt(2, candidate.getCityId());
+            ps.setInt(3, candidate.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOG.error("SQL Exception information:", e);
@@ -229,7 +243,9 @@ public class DbStore implements Store {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Post(it.getInt("id"), it.getString("name"));
+                    return new Post(
+                            it.getInt("id"),
+                            it.getString("name"));
                 }
             }
         } catch (SQLException e) {
@@ -249,7 +265,9 @@ public class DbStore implements Store {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Candidate(it.getInt("id"), it.getString("name"));
+                    return new Candidate(
+                            it.getInt("id"),
+                            it.getString("name"));
                 }
             }
         } catch (SQLException e) {
@@ -269,7 +287,9 @@ public class DbStore implements Store {
             ps.setString(1, name);
             try (ResultSet post = ps.executeQuery()) {
                 if (post.next()) {
-                    return new Post(post.getInt("id"), post.getString("name"));
+                    return new Post(
+                            post.getInt("id"),
+                            post.getString("name"));
                 }
             }
         } catch (SQLException e) {
@@ -289,7 +309,9 @@ public class DbStore implements Store {
             ps.setString(1, name);
             try (ResultSet candidate = ps.executeQuery()) {
                 if (candidate.next()) {
-                    return new Candidate(candidate.getInt("id"), candidate.getString("name"));
+                    return new Candidate(
+                            candidate.getInt("id"),
+                            candidate.getString("name"));
                 }
             }
         } catch (SQLException e) {
@@ -347,7 +369,9 @@ public class DbStore implements Store {
             ps.setString(1, email);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new User(rs.getInt("id"), rs.getString("name"),
+                    return new User(
+                            rs.getInt("id"),
+                            rs.getString("name"),
                             rs.getString("email"));
                 }
             }
@@ -378,7 +402,8 @@ public class DbStore implements Store {
      */
     private User createUser(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+             PreparedStatement ps = cn.prepareStatement(
+                     "INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
@@ -403,7 +428,8 @@ public class DbStore implements Store {
      */
     public boolean authenticationUser(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?")) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM users WHERE email = ? AND password = ?")) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
             try (ResultSet rs = ps.executeQuery()) {
@@ -416,4 +442,50 @@ public class DbStore implements Store {
         }
         return false;
     }
+
+    /**
+     * Получаем информацию из базы обо всех постах которые были созданы сегодня.
+     * @return
+     */
+    public List<Post> findTodayPosts() {
+        List<Post> posts = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM post WHERE create_date = CURRENT_DATE")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    posts.add(new Post(
+                            it.getInt("id"),
+                            it.getString("name")));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return posts;
+    }
+
+    /**
+     * Получаем информацию из базы о всех кандидатах которые были созданы сегодня.
+     * @return
+     */
+    public List<Candidate> findTodayCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM candidate WHERE create_date = CURRENT_DATE")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(new Candidate(
+                            it.getInt("id"),
+                            it.getString("name")));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("SQL Exception information:", e);
+        }
+        return candidates;
+    }
+
+
 }

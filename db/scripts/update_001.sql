@@ -1,12 +1,14 @@
 CREATE TABLE IF NOT EXISTS post (
     id SERIAL PRIMARY KEY,
-    name TEXT
+    name TEXT,
+    create_date DATE
 );
 
 CREATE TABLE IF NOT EXISTS candidate (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    city_id INT REFERENCES city (id)
+    city_id INT REFERENCES city (id),
+    create_date DATE
 );
 
 CREATE TABLE IF NOT EXISTS city (

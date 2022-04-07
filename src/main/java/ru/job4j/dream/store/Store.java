@@ -9,7 +9,9 @@ import java.util.Collection;
 
 public interface Store {
     Collection<Post> findAllPosts();
+    Collection<Post> findTodayPosts();
     Collection<Candidate> findAllCandidates();
+    Collection<Candidate> findTodayCandidates();
     Collection<City> findAllCities();
     void save(Post post);
     void save(Candidate candidate);
