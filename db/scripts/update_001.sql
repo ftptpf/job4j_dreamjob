@@ -1,12 +1,6 @@
-CREATE TABLE IF NOT EXISTS city (
+CREATE TABLE city (
     id SERIAL PRIMARY KEY,
     name TEXT
-);
-
-CREATE TABLE IF NOT EXISTS post (
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    create_date DATE
 );
 
 CREATE TABLE candidate (
@@ -16,7 +10,13 @@ CREATE TABLE candidate (
     create_date DATE
 );
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    create_date DATE
+);
+
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name TEXT,
     email TEXT,
