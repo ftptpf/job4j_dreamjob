@@ -4,8 +4,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.store.DbStore;
-import ru.job4j.dream.store.MemStore;
-import ru.job4j.dream.store.Store;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,6 @@ public class CandidateServletTest {
 
     @Test
     public void whenCreateCandidate() throws IOException {
-        //DbStore store = mock(DbStore.class);
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("id")).thenReturn("0");
