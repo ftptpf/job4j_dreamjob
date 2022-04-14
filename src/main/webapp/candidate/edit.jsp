@@ -36,7 +36,6 @@
             }).done(function(data) {
                 for (let city of data) {
                     $(`#selectCities`).append("<option value=\"" + city.id + "\">" + city.name + "</option>")
-                    /*//$('#selectCities').append(`<option value="${city.id}">${city.name}</option>`)*/
                 }
             }).fail(function (err) {
                 console.log(err);
